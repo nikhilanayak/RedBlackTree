@@ -208,32 +208,32 @@ void addExt(RBNode*& head, int value){ // calls the add function and then balanc
 }
 
 
-void upload(RBNode *&root){ // gets numbers from numbers.txt and adds them to RBTree
-    // (mostly) same code from BST project
-	std::cout << "How many numbers: ";
-	int input;
-	std::cin >> input;
-
-	for (int i = 0; i < input; i++){ // for each number that we need to get
-		char input[10];
-		char tmp[10];
-		int count = 1;
-		int num;
-		int random = (rand() % 50) + 1;
-		std::ifstream file("numbers.txt"); // open the file
-
-		while (file.getline(input, 10, ' ')){ // keep going until we hit "random"
-			if (count == random){
-				strcpy(tmp, input); // tmp = input
-				count++;
-			}
-			count++;
-		}
-		num = atoi(tmp); // convert tmp to int
-        addExt(root, num); // add to tree
-	}
+int pop(std::ifstream& file){
+    char input[10];
+    file.getline(input, 10, ' ');
+    return atoi(input);
 }
 
+int random(int high){
+    return (rand() % high) + 1;
+}
+
+void upload(RBNode *&root){ // gets numbers from numbers.txt and adds them to RBTree
+    
+    // (mostly) same code from BST project
+	std::cout << "How many numbers: ";
+	int numnums;
+	std::cin >> numnums;
+
+    std::ifstream file("numbers.txt");
+
+    for(int i = 0, l = random(25); i < l; i++) pop(file); // randomly skip the first 0-25 numbers
+    for(int i = 0; i < numnums; i++){
+        for(int i = 0, l = random(25); i < l; i++) pop(file); // randomly skip 0-25 numbers
+        int num = pop(file);
+        addExt(root, num);
+    }
+}
 
 int main(){
     RBNode* head = NULL;

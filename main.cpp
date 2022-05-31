@@ -327,23 +327,13 @@ RBNode *replaceNode(RBNode *&x)
 }
 
 RBNode *getSibling(RBNode *&x)
-{
-  if (x->parent == NULL)
-  {
-    return NULL;
-  }
-  if (x == x->parent->left)
-  {
-    return x->parent->right;
-  }
-  else
-  {
-    return x->parent->left;
-  }
+{ // gets node's parent's other child
+  if(x->parent == NULL) return NULL;
+  return (x == x->parent->left) ? x->parent->right : x->parent->left;
 }
 
 bool isRedChild(RBNode *&x)
-{
+{ // determines if node's chlid is red
   if ((x->left != NULL && x->left->color == Red) || (x->right != NULL && x->right->color == Red))
   {
     return true;
@@ -352,7 +342,7 @@ bool isRedChild(RBNode *&x)
 }
 
 void fixBlackChild(RBNode *&head, RBNode *&n)
-{
+{ // fixes black black
   if (n == head)
     return;
 
@@ -436,12 +426,6 @@ void fixBlackChild(RBNode *&head, RBNode *&n)
     }
   }
 }
-
-void swapData(RBNode *&a, RBNode *&b)
-{
-  std::swap(a->data, b->data);
-}
-
 void delete_(RBNode *&head, RBNode *&toDelete)
 { // main delete function for Node in RB Tree
   RBNode *rep = replaceNode(toDelete);
@@ -519,6 +503,7 @@ void delete_(RBNode *&head, RBNode *&toDelete)
   }
 
   // 2 children
+  // swap data
   unsigned short t = rep->data;
   toDelete->data = rep->data;
   rep->data = t;
@@ -575,7 +560,7 @@ int main()
 
       RBNode *v = head;
       while (v->data != value)
-      {
+      { // find the right node
         if (value < v->data)
         {
           v = v->left;

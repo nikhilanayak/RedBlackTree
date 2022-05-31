@@ -223,8 +223,13 @@ void nprint(RBNode *head, int space)
   std::cout << "\n";
   for (int i = NUM_SPACES; i < space; i++)
     std::cout << " ";
-  std::cout << head->data << "(" << (head->color == Red ? 'R' : 'B') << ")"
-            << "\n";
+
+  std::cout << head->data << "(" << (head->color == Red ? 'R' : 'B') << ")" << "(p=";
+
+  if(head->parent == NULL) std::cout << "NULL";
+  else std::cout << head->parent->data;
+  std::cout << ")\n";
+
 
   nprint(head->right, space);
 }
